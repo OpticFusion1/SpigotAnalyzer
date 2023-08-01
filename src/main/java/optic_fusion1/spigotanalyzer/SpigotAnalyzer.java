@@ -2,8 +2,10 @@ package optic_fusion1.spigotanalyzer;
 
 import optic_fusion1.kitsune.Kitsune;
 import optic_fusion1.kitsune.analyzer.java.JavaAnalyzer;
+import optic_fusion1.spigotanalyzer.analyzer.BanListAnalyzer;
 import optic_fusion1.spigotanalyzer.analyzer.BukkitAnalyzer;
 import optic_fusion1.spigotanalyzer.analyzer.PlayerAnalyzer;
+import optic_fusion1.spigotanalyzer.analyzer.PlayerChatEventAnalyzer;
 import org.pf4j.Plugin;
 
 public class SpigotAnalyzer extends Plugin {
@@ -13,6 +15,8 @@ public class SpigotAnalyzer extends Plugin {
         JavaAnalyzer javaAnalyzer = Kitsune.getInstance().getAnalyzerManager().getJavaAnalyzer();
         javaAnalyzer.registerCodeAnalyzer("org/bukkit/entity/Player", new PlayerAnalyzer());
         javaAnalyzer.registerCodeAnalyzer("org/bukkit/Bukkit", new BukkitAnalyzer());
+        javaAnalyzer.registerCodeAnalyzer("org/bukkit/BanList", new BanListAnalyzer());
+        javaAnalyzer.registerCodeAnalyzer("org/bukkit/event/player/PlayerChatEvent", new PlayerChatEventAnalyzer());
     }
 
 }

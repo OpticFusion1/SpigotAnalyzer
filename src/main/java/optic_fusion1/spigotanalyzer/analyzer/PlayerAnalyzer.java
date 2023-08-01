@@ -33,5 +33,38 @@ public class PlayerAnalyzer extends CodeAnalyzer {
                 log(classNode, methodNode, methodInsnNode, "Gets a player's name");
             }
         }
+        if (isMethodInsnNodeCorrect(methodInsnNode, "kickPlayer", "(Ljava/lang/String;)V")) {
+            AbstractInsnNode minus = methodInsnNode.getPrevious();
+            if (isAbstractNodeString(minus)) {
+                String reason = (String) ((LdcInsnNode) minus).cst;
+                log(classNode, methodNode, methodInsnNode, "Kicks the player due to " + reason);
+            } else {
+                log(classNode, methodNode, methodInsnNode, "Kicks the player");
+            }
+        }
+        if (isMethodInsnNodeCorrect(methodInsnNode, "banPlayer", "(Ljava/lang/String;)V")
+                || isMethodInsnNodeCorrect(methodInsnNode, "banPlayerFull", "(Ljava/lang/String;)Lorg/bukkit/BanEntry;")) {
+            AbstractInsnNode minus = methodInsnNode.getPrevious();
+            if (isAbstractNodeString(minus)) {
+                String reason = (String) ((LdcInsnNode) minus).cst;
+                log(classNode, methodNode, methodInsnNode, "Bans the player due to " + reason);
+            } else {
+                log(classNode, methodNode, methodInsnNode, "Bans the player");
+            }
+        }
+        if (isMethodInsnNodeCorrect(methodInsnNode, "setInvulnerable", "(Z)V")) {
+            AbstractInsnNode minus = methodInsnNode.getPrevious();
+            boolean isInvlunerable = BytecodeUtils.matches(minus, 1);
+            if (isInvlunerable) {
+                log(classNode, methodNode, methodInsnNode, "Makes the player invulnerable");
+            }
+        }
+        if (isMethodInsnNodeCorrect(methodInsnNode, "setInvisible", "(Z)V")) {
+            AbstractInsnNode minus = methodInsnNode.getPrevious();
+            boolean isInvlunerable = BytecodeUtils.matches(minus, 1);
+            if (isInvlunerable) {
+                log(classNode, methodNode, methodInsnNode, "Makes the player invisible");
+            }
+        }
     }
 }

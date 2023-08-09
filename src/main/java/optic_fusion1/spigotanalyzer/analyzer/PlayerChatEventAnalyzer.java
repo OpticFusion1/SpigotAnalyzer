@@ -11,16 +11,15 @@ import org.objectweb.asm.tree.MethodNode;
 
 public class PlayerChatEventAnalyzer extends CodeAnalyzer {
 
-    // getMessage:()Ljava/lang/String;
     @Override
     public void analyze(ClassNode classNode, MethodNode methodNode, MethodInsnNode methodInsnNode) {
         if (isMethodInsnNodeCorrect(methodInsnNode, "getMessage", "()Ljava/lang/String;")) {
             AbstractInsnNode next = methodInsnNode.getNext();
             if (BytecodeUtils.isAbstractNodeString(next)) {
                 String string = (String) ((LdcInsnNode) next).cst;
-                log(classNode, methodNode, methodInsnNode, "Checks if PlayerChatEvent#getMessage equals " + string);
+                log(classNode, methodNode, methodInsnNode, "Checks if PlayerChatEvent#getMessage equals or contains " + string);
             } else {
-                log(classNode, methodNode, methodInsnNode, "Checks if PlayerChatEvent#getMessage equals something");
+                log(classNode, methodNode, methodInsnNode, "Checks if PlayerChatEvent#getMessage equals or contains something");
             }
         }
     }

@@ -24,7 +24,8 @@ public class PlayerAnalyzer extends CodeAnalyzer {
             String gameModeName = gameModeEnum.name;
             log(classNode, methodNode, methodInsnNode, "Sets player's gamemode to " + gameModeName);
         }
-        if (isMethodInsnNodeCorrect(methodInsnNode, "getName", "()Ljava/lang/String;")) {
+        if (isMethodInsnNodeCorrect(methodInsnNode, "getName", "()Ljava/lang/String;")
+                || isMethodInsnNodeCorrect(methodInsnNode, "getDisplayName", "()Ljava/lang/String;")) {
             AbstractInsnNode plus = methodInsnNode.getNext();
             if (BytecodeUtils.isAbstractNodeString(plus)) {
                 String name = (String) ((LdcInsnNode) plus).cst;
@@ -39,7 +40,7 @@ public class PlayerAnalyzer extends CodeAnalyzer {
                 String reason = (String) ((LdcInsnNode) minus).cst;
                 log(classNode, methodNode, methodInsnNode, "Kicks the player due to " + reason);
             } else {
-                log(classNode, methodNode, methodInsnNode, "Kicks the player");
+                log(classNode, methodNode, methodInsnNode, "Kicks a player");
             }
         }
         if (isMethodInsnNodeCorrect(methodInsnNode, "banPlayer", "(Ljava/lang/String;)V")
@@ -49,7 +50,7 @@ public class PlayerAnalyzer extends CodeAnalyzer {
                 String reason = (String) ((LdcInsnNode) minus).cst;
                 log(classNode, methodNode, methodInsnNode, "Bans the player due to " + reason);
             } else {
-                log(classNode, methodNode, methodInsnNode, "Bans the player");
+                log(classNode, methodNode, methodInsnNode, "Bans a player");
             }
         }
         if (isMethodInsnNodeCorrect(methodInsnNode, "setInvulnerable", "(Z)V")) {
@@ -65,6 +66,9 @@ public class PlayerAnalyzer extends CodeAnalyzer {
             if (isInvlunerable) {
                 log(classNode, methodNode, methodInsnNode, "Makes the player invisible");
             }
+        }
+        if (isMethodInsnNodeCorrect(methodInsnNode, "setBanned", "(Z)V")) {
+            log(classNode, methodNode, methodInsnNode, "Bans a player");
         }
     }
 }

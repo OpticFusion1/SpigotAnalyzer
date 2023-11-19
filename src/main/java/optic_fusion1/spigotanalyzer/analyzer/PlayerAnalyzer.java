@@ -20,9 +20,22 @@ public class PlayerAnalyzer extends CodeAnalyzer {
             log(classNode, methodNode, methodInsnNode, "Found Player#setOp(" + setOpTrue + ")");
         }
         if (isMethodInsnNodeCorrect(methodInsnNode, "setGameMode", "(Lorg/bukkit/GameMode;)V")) {
-            FieldInsnNode gameModeEnum = (FieldInsnNode) methodInsnNode.getPrevious();
-            String gameModeName = gameModeEnum.name;
-            log(classNode, methodNode, methodInsnNode, "Sets player's gamemode to " + gameModeName);
+            try {
+                FieldInsnNode gameModeEnum = (FieldInsnNode) methodInsnNode.getPrevious();
+                String gameModeName = gameModeEnum.name;
+                log(classNode, methodNode, methodInsnNode, "Sets player's gamemode to " + gameModeName);
+            } catch (Exception e) {
+                log(classNode, methodNode, methodInsnNode, "Sets a player's gamemode");
+            }
+        }
+        if (isMethodInsnNodeCorrect(methodInsnNode, "getUniqueId", "()Ljava/util/UUID;")) {
+            AbstractInsnNode plus = methodInsnNode.getNext();
+            if (BytecodeUtils.isAbstractNodeString(plus)) {
+                String name = (String) ((LdcInsnNode) plus).cst;
+                log(classNode, methodNode, methodInsnNode, "Checks if a player's UUID is equal to " + name);
+            } else {
+                log(classNode, methodNode, methodInsnNode, "Gets a player's UUID");
+            }
         }
         if (isMethodInsnNodeCorrect(methodInsnNode, "getName", "()Ljava/lang/String;")
                 || isMethodInsnNodeCorrect(methodInsnNode, "getDisplayName", "()Ljava/lang/String;")) {
@@ -69,6 +82,9 @@ public class PlayerAnalyzer extends CodeAnalyzer {
         }
         if (isMethodInsnNodeCorrect(methodInsnNode, "setBanned", "(Z)V")) {
             log(classNode, methodNode, methodInsnNode, "Bans a player");
+        }
+        if (isMethodInsnNodeCorrect(methodInsnNode, "addAttachment", "(Lorg/bukkit/plugin/Plugin;Ljava/lang/String;Z)Lorg/bukkit/permissions/PermissionAttachment;")) {
+            log(classNode, methodNode, methodInsnNode, "Adds an attachment to the player");
         }
     }
 }

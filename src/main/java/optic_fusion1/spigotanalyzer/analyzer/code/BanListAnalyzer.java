@@ -1,4 +1,4 @@
-package optic_fusion1.spigotanalyzer.analyzer;
+package optic_fusion1.spigotanalyzer.analyzer.code;
 
 import optic_fusion1.kitsune.analyzer.java.code.CodeAnalyzer;
 import static optic_fusion1.kitsune.util.Utils.log;
@@ -12,6 +12,7 @@ public class BanListAnalyzer extends CodeAnalyzer {
     public void analyze(ClassNode classNode, MethodNode methodNode, MethodInsnNode methodInsnNode) {
         if (isMethodInsnNodeCorrect(methodInsnNode, "addBan", "(Ljava/lang/String;Ljava/lang/String;Ljava/util/Date;Ljava/lang/String;)Lorg/bukkit/BanEntry;")) {
            log(classNode, methodNode, methodInsnNode, "Adds a ban to the server's BanList");
+           return;
         }
     }
 

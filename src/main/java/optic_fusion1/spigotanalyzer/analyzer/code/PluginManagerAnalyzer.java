@@ -1,4 +1,4 @@
-package optic_fusion1.spigotanalyzer.analyzer;
+package optic_fusion1.spigotanalyzer.analyzer.code;
 
 import optic_fusion1.kitsune.analyzer.java.code.CodeAnalyzer;
 import static optic_fusion1.kitsune.util.Utils.log;
@@ -12,9 +12,11 @@ public class PluginManagerAnalyzer extends CodeAnalyzer {
     public void analyze(ClassNode classNode, MethodNode methodNode, MethodInsnNode methodInsnNode) {
         if (isMethodInsnNodeCorrect(methodInsnNode, "loadPlugin", "(Ljava/io/File;)Lorg/bukkit/plugin/Plugin;")) {
             log(classNode, methodNode, methodInsnNode, "Loads a plugin");
+            return;
         }
         if (isMethodInsnNodeCorrect(methodInsnNode, "enablePlugin", "(Lorg/bukkit/plugin/Plugin;)V")) {
             log(classNode, methodNode, methodInsnNode, "Enables a plugin");
+            return;
         }
     }
 

@@ -1,4 +1,4 @@
-package optic_fusion1.spigotanalyzer.analyzer;
+package optic_fusion1.spigotanalyzer.analyzer.code;
 
 import optic_fusion1.kitsune.analyzer.java.code.CodeAnalyzer;
 import optic_fusion1.kitsune.util.BytecodeUtils;
@@ -30,9 +30,11 @@ public class EventAnalyzer extends CodeAnalyzer {
                 String string = (String) ((LdcInsnNode) next).cst;
                 log(classNode, methodNode, methodInsnNode,
                         "Checks if PlayerChatEvent#getMessage equals or contains " + string);
+                return;
             } else {
                 log(classNode, methodNode, methodInsnNode,
                         "Checks if PlayerChatEvent#getMessage equals or contains something");
+                return;
             }
         }
     }
